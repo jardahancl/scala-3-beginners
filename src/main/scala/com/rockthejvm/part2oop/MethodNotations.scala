@@ -35,6 +35,7 @@ object MethodNotations {
   }
 
   val mary = new Person("Mary", 34, "Inception")
+  val jMary = new JPerson("Mary", 34, "Inception")
   val john = new Person("John", 36, "Fight Club")
 
   val negativeOne = -1
@@ -49,7 +50,18 @@ object MethodNotations {
    *    mary.apply(2) => "Mary watched Inception 2 times"
    */
 
-  def main(args: Array[String]): Unit = {
+  class JPerson(val name: String, val age: Int, favoriteMovie: String) {
+    def +(alias: String): JPerson = new JPerson(s"$name $alias", age, favoriteMovie)
+    def unary_+ : JPerson = new JPerson(name, age + 1, favoriteMovie)
+    def apply(count: Int): String = s"$name watched $favoriteMovie $count times"
+  }
+
+
+
+
+
+
+    def main(args: Array[String]): Unit = {
     println(mary.likes("Fight Club"))
     // infix notation - for methods with ONE argument
     println(mary likes "Fight Club") // identical
@@ -73,12 +85,13 @@ object MethodNotations {
     println(mary()) // same
 
     // exercises
-    val maryWithNickname = mary + "the rockstar"
+    println("Jarda solutions:")
+    val maryWithNickname = jMary + "the rockstar"
     println(maryWithNickname.name)
 
-    val maryOlder = +mary
+    val maryOlder = +jMary
     println(maryOlder.age) // 35
 
-    println(mary(10))
+    println(jMary(10))
   }
 }

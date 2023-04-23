@@ -49,6 +49,15 @@ object Recursion {
    */
 
   // 1
+  def jConcatenate(s:String, n: Int): String = {
+    @tailrec
+    def concatTR(multiplicity: Int, result: String): String = {
+      if (multiplicity == 0) result
+      else concatTR(multiplicity - 1, result + s)
+    }
+
+    concatTR(n, "")
+  }
   def concatenate(string: String, n: Int): String = {
     @tailrec
     def concatTailrec(remainingTimes: Int, accumulator: String): String =
@@ -59,6 +68,17 @@ object Recursion {
   }
 
   // 2
+  def jFibonacci(n: Int): Int = {
+    @tailrec
+    def fibTR(step: Int, prev: Int, pprev: Int): Int = {
+      if (step == 2) prev + pprev
+      else fibTR(step - 1, prev + pprev, prev)
+    }
+
+    if (n == 0) 0
+    else if (n <= 2) 1
+    else fibTR(n-1, 1, 1)
+  }
   def fibonacci(n: Int): Int = {
     def fiboTailrec(i: Int, last: Int, previous: Int): Int =
       if (i >= n) last
@@ -69,6 +89,16 @@ object Recursion {
   }
 
   // 3 - yes, rephrasing:
+  def jPrimeTest(n: Int): Boolean = {
+    @tailrec
+    def jPrimeTestWithLimit(n: Int, limit: Int): Boolean =
+      if (n == 1) false
+      else if (limit * limit > n) true
+      else if (n % limit == 0) false
+      else jPrimeTestWithLimit(n, limit + 1)
+
+    jPrimeTestWithLimit(n, 2)
+  }
   def isPrime(n: Int): Boolean = {
     def isPrimeUntil(t: Int): Boolean =
       if (t <= 1) true
@@ -79,8 +109,12 @@ object Recursion {
   }
 
   def main(args: Array[String]): Unit = {
-    println(sumUntil_v2(20000))
-    println(concatenate("Scala", 5))
-    println(fibonacci(7))
+//    println(sumUntil_v2(20000))
+//    println(concatenate("Scala", 5))
+//    println(fibonacci(7))
+
+//    println(sumUntil_v2(20000))
+    println(jConcatenate("Scala", 5))
+    println(jFibonacci(7))
   }
 }

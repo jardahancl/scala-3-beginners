@@ -1,5 +1,7 @@
 package com.rockthejvm.part1basics
 
+import com.sun.org.apache.xpath.internal.functions.FuncFalse
+
 object Functions {
 
   // function = reusable piece of code that you can invoke with some arguments and return a result
@@ -55,6 +57,34 @@ object Functions {
    * 4. Tests if a number is prime
    */
 
+  def jGreeting(name: String, age: Int): String = {
+    "Hi my name is " + name + " and I am " + age + " years old."
+  }
+
+  def jFactorial(n: Int): Int = {
+    if (n == 0 || n == 1) 1
+    else n * jFactorial(n-1)
+  }
+
+  def jFibonacci(n: Int): Int = {
+    if (n == 0 || n == 1) 1
+    else jFibonacci(n - 1) + jFibonacci(n - 2)
+  }
+
+  def jPrimeTest(n: Int): Boolean = {
+    def jPrimeTestWithLimit(n: Int, limit: Int): Boolean =
+      if (n == 1) false
+      else if (limit * limit > n) true
+      else if (n % limit == 0) false
+      else jPrimeTestWithLimit(n, limit + 1)
+
+    jPrimeTestWithLimit(n, 2)
+  }
+
+
+
+
+
   // 1
   def greetingForKids(name: String, age: Int): String =
     "Hi, my name is " + name + " and I am " + age + " years old."
@@ -100,9 +130,13 @@ object Functions {
   }
 
   def main(args: Array[String]): Unit = {
-    println(greetingForKids("Daniel", 9))
-    println(factorial(5))
-    println(fibonacci(5))
-    println(isPrime(7))
+//    println(greetingForKids("Daniel", 9))
+//    println(factorial(5))
+//    println(fibonacci(5))
+//    println(isPrime(7))
+    println(jGreeting("Daniel", 9))
+    println(jFactorial(5))
+    println(jFibonacci(5))
+    println(jPrimeTest(8))
   }
 }

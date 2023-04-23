@@ -32,7 +32,7 @@ object Inheritance {
   }
 
   // subtype polymorphism
-  val dog: Animal = new Dog
+  val dog: Dog = new Dog
   dog.eat() // the most specific method will be called
 
   // overloading vs overriding
@@ -55,6 +55,9 @@ object Inheritance {
 
   def main(args: Array[String]): Unit = {
     println(dog) // println(dog.toString)
-
+    val croc = new Crocodile
+    val jack = new Person("Jack", 45)
+    croc.eat(dog, jack)
+    croc.eat(jack, dog)
   }
 }

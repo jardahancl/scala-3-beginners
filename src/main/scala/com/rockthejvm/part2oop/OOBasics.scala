@@ -1,4 +1,6 @@
 package com.rockthejvm.part2oop
+import java.time.Year
+
 
 object OOBasics {
 
@@ -31,26 +33,34 @@ object OOBasics {
   val genericPerson = new Person()
 
   def main(args: Array[String]): Unit = {
-    val charlesDickens = new Writer("Charles", "Dickens", 1812)
-    val charlesDickensImpostor = new Writer("Charles", "Dickens", 2021)
+//    val charlesDickens = new Writer("Charles", "Dickens", 1812)
+//    val charlesDickensImpostor = new Writer("Charles", "Dickens", 2021)
+//
+//    val novel = new Novel("Great Expectations", 1861, charlesDickens)
+//    val newEdition = novel.copy(1871)
+//
+//    println(charlesDickens.fullName)
+//    println(novel.authorAge)
+//    println(novel.isWrittenBy(charlesDickensImpostor)) // false
+//    println(novel.isWrittenBy(charlesDickens)) // true
+//    println(newEdition.authorAge)
+//
+//    val counter = new Counter()
+//    counter.print() // 0
+//    counter.increment().print() // 1
+//    counter.increment() // always returns new instances
+//    counter.print() // 0
+//
+//    counter.increment(10).print() // 10
+//    counter.increment(20000).print() // 20000
 
-    val novel = new Novel("Great Expectations", 1861, charlesDickens)
-    val newEdition = novel.copy(1871)
+  val jWriter = JWriter("Peter", "Slave", 1998)
+  println(jWriter.fullname())
 
-    println(charlesDickens.fullName)
-    println(novel.authorAge)
-    println(novel.isWrittenBy(charlesDickensImpostor)) // false
-    println(novel.isWrittenBy(charlesDickens)) // true
-    println(newEdition.authorAge)
-
-    val counter = new Counter()
-    counter.print() // 0
-    counter.increment().print() // 1
-    counter.increment() // always returns new instances
-    counter.print() // 0
-
-    counter.increment(10).print() // 10
-    counter.increment(20000).print() // 20000
+  val jNovel = JNovel("Avatar", 1996, jWriter)
+    println(jNovel.getAuthorAge)
+    println(jNovel.isWrittenBy)
+    println(jNovel.copy(1998).year)
   }
 }
 
@@ -66,6 +76,24 @@ object OOBasics {
     - isWrittenBy(author)
     - copy (new year of release) = new instance of Novel
  */
+
+class JWriter(name: String, surname: String, val year: Int) {
+  def fullname(): String = s"${name} ${surname}"
+}
+
+class JNovel(name: String, val year: Int, author: JWriter) {
+  def getAuthorAge = Year.now.getValue - author.year
+  def isWrittenBy = author.fullname()
+  def copy(releaseYear: Int): JNovel = new JNovel(this.name, releaseYear, this.author)
+}
+
+
+
+
+
+
+
+
 
 class Writer(firstName: String, lastName: String, val yearOfBirth: Int) {
   def fullName: String = s"$firstName $lastName"
