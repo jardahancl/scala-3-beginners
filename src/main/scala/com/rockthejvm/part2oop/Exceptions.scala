@@ -49,6 +49,27 @@ object Exceptions {
    * 3. Find an element matching a predicate in LList
    */
 
+  def jCrashSO() = {
+    def rec(n: Int): Int = {
+      if (n == 0) 1
+      else n * rec(n-1)
+    }
+    rec(100000000)
+  }
+
+  def jCrashOOM() = {
+    def bigString(n: Int, s: String): String = {
+      bigString(n - 1, s + s)
+    }
+    bigString(10000000, "Scala")
+  }
+
+
+
+
+
+
+
   def soCrash(): Unit = {
     def infinite(): Int = 1 + infinite()
     infinite()
@@ -64,10 +85,13 @@ object Exceptions {
 
 
   def main(args: Array[String]): Unit = {
-    println(potentialFail)
+    //println(potentialFail)
     // val throwingMyException = throw myException
 
     // soCrash()
-    oomCrash()
+    // oomCrash()
+
+    jCrashSO()
+    jCrashOOM()
   }
 }
