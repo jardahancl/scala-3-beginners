@@ -62,7 +62,7 @@ object Options {
 
   val config: Map[String, String] = Map(
     // comes from elsewhere
-    "host" -> "176.45.32.1",
+//    "host" -> "176.45.32.1",
     "port" -> "8081"
   )
 
@@ -77,6 +77,9 @@ object Options {
       if (random.nextBoolean()) Some(new Connection)
       else None
   }
+
+
+
 
   // defensive style (in an imperative language e.g. Java)
   /*
@@ -113,5 +116,6 @@ object Options {
 
   def main(args: Array[String]): Unit = {
     println(connStatus.getOrElse("Failed to establish connection"))
+    println(config.get("host"))
   }
 }

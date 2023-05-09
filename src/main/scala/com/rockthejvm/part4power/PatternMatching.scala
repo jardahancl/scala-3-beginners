@@ -54,6 +54,27 @@ object PatternMatching {
   case class Sum(e1: Expr, e2: Expr) extends Expr
   case class Prod(e1: Expr, e2: Expr) extends Expr
 
+  def jShow(expr: Expr): String = expr match {
+    case Number(a) => s"$a"
+    case Sum(a, b) => s"${show(a)} + ${show(b)}"
+    case Prod(a, b) => {
+      def showBraces(e: Expr): String = e match {
+        case Number(_) => show(e)
+        case Sum(t, s) => s"(${show(s)} + ${show(t)})"
+        case Prod(_, _) => show(e)
+      }
+      s"${showBraces(a)} * ${showBraces(b)}"
+    }
+
+  }
+
+
+
+
+
+
+
+
   def show(expr: Expr): String = expr match {
     case Number(n) => s"$n"
     case Sum(left, right) => show(left) + " + " + show(right)
@@ -72,9 +93,11 @@ object PatternMatching {
     println(description)
     println(greeting)
 
-    println(show(Sum(Number(2), Number(3))))
-    println(show(Sum(Sum(Number(2), Number(3)), Number(4))))
-    println(show(Prod(Sum(Number(2), Number(3)), Number(4))))
-    println(show(Sum(Prod(Number(2), Number(3)), Number(4))))
+    println(jShow(Sum(Number(2), Number(3))))
+    println(jShow(Sum(Sum(Number(2), Number(3)), Number(4))))
+    println(jShow(Prod(Sum(Number(2), Number(3)), Number(4))))
+    println(jShow(Sum(Prod(Number(2), Number(3)), Number(4))))
+
+
   }
 }

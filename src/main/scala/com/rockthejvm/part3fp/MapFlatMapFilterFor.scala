@@ -22,6 +22,23 @@ object MapFlatMapFilterFor {
   val chars = List('a', 'b', 'c', 'd')
   val colors = List("black", "white", "red")
 
+  def jCombs(l1: List[Int], l2: List[Char], l3: List[String]): Unit = {
+    for {
+      n <- l1
+      ch <- l2
+      s <- l3
+    } yield s"${n}${ch} - ${s}"
+//    {
+//       println(s"${n}${ch} - ${s}")
+//    }
+  }
+  val jCombinations = numbers.flatMap(n => chars.flatMap(ch => colors.map(c => s"${n}${ch} - ${c}")))
+
+
+
+
+
+
   /*
     lambda = num => chars.map(char => s"$num$char")
     [1,2,3,4].flatMap(lambda) = ["1a", "1b", "1c", "1d", "2a", "2b", "2c", "2d", ...]
@@ -77,5 +94,8 @@ object MapFlatMapFilterFor {
     println(filteredNumbers)
     println(flatMappedNumbers)
     println(combinationNumbers)
+
+    jCombs(numbers, chars, colors)
+    println(jCombinations)
   }
 }

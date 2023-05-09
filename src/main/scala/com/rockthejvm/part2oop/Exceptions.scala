@@ -66,10 +66,6 @@ object Exceptions {
 
 
 
-
-
-
-
   def soCrash(): Unit = {
     def infinite(): Int = 1 + infinite()
     infinite()
@@ -91,7 +87,7 @@ object Exceptions {
     // soCrash()
     // oomCrash()
 
-    jCrashSO()
-    jCrashOOM()
+//    jCrashSO()
+//    jCrashOOM()
   }
 }

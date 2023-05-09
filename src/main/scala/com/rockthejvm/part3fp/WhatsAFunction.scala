@@ -45,6 +45,25 @@ object WhatsAFunction {
    * 3. Define a function which takes an int as argument and returns ANOTHER FUNCTION as a result.
    */
 
+  val jConcatenate = new Function2[String, String, String] {
+    override def apply(v1: String, v2: String): String = v1 + v2
+  }
+
+  val jIntToFunction = new Function1[Int, Function1[Int, Int]] {
+    override def apply(i: Int): Function1[Int, Int] = new Function1[Int, Int] {
+      override def apply(j: Int): Int = i * j
+    }
+  }
+
+  val jIntToFunctionShorter = new Function1[Int, Function1[Int, Int]] {
+    override def apply(i: Int): Int => Int = _ * i
+  }
+
+//  val jIntToFunctionEvenShorter: Int => (Int => Int) = _ * _
+  val adderShorter: (Int, Int) => Int = _ + _
+
+
+
   // 1
   val concatenator: (String, String) => String = new Function2[String, String, String] {
     override def apply(a: String, b: String) = a + b
@@ -71,6 +90,14 @@ object WhatsAFunction {
   // function values != methods
 
   def main(args: Array[String]): Unit = {
-    println(concatenator("I love ", "Scala"))
+//    println(concatenator("I love ", "Scala"))
+
+    println(jConcatenate("Jane ", "Austin"))
+    println(jIntToFunction(5)(4))
+
+    println(adderShorter(25, 12))
+    println(jIntToFunctionShorter(25)(12))
+
+
   }
 }

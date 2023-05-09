@@ -11,7 +11,14 @@ object HOFsCurrying {
   // quick exercise
   val superfunction: (Int, (String, (Int => Boolean)) => Int) => (Int => Int) = (x, func) => (y => x + y)
 
+  val jFunc: (Int, String) => Int = (x, s) => x + s.length
+
+  val jSuperfunction3: Int => Boolean = (y => y == 54)
+  val jSuperfunction2: (String, (Int => Boolean)) => Int = (s, jSuperfunction3) => s.length
+  val jSuperfunction: (Int, (String, (Int => Boolean)) => Int) => (Int => Int) = (x, jSuperfunction2) => (z => z + x)
   // examples: map, flatMap, filter
+
+
 
   // more examples
   // f(f(f(...(f(x)))
@@ -43,15 +50,16 @@ object HOFsCurrying {
   val oneHundred = plusOneHundred(0)
 
   // currying = HOFs returning function instances
-  val superAdder: Int => Int => Int = (x: Int) => (y: Int) => x + y
+  val superAdder: (Int => Int => Int) = ((x: Int) => (y: Int) => x + y)
   val add3: Int => Int = superAdder(3)
   val invokeSuperAdder = superAdder(3)(100) // 103
 
   // curried methods = methods with multiple arg list
   def curriedFormatter(fmt: String)(x: Double): String = fmt.format(x)
 
-  val standardFormat: (Double => String) = curriedFormatter("%4.2f") // (x: Double) => "%4.2f".format(x)
+val standardFormat: (Double => String) = curriedFormatter("%4.2f") // (x: Double) => "%4.2f".format(x)
   val preciseFormat: (Double => String) = curriedFormatter("%10.8f") // (x: Double) => "%10.8f".format(x)
+  val jFormatter = curriedFormatter("%4.2f")
 
   /**
    * 1. LList exercises
@@ -78,6 +86,29 @@ object HOFsCurrying {
    *  3. compose(f,g) => x => f(g(x))
    *     andThen(f,g) => x => g(f(x))
    */
+
+  def jToCurry(f: (Int, Int) => Int): Int => Int => Int = {
+    def fCurried(x: Int)(y: Int): Int = f(x, y)
+    fCurried
+  }
+
+  def jFromCurry[A](f: A => A => A): (A, A) => A = {
+    (x, y) => f(x)(y)
+  }
+
+  def jCompose[A, B, C](f: B => C, g: A => B): A => C = {
+    def jComposture(x: A): C = f(g(x))
+    jComposture
+  }
+
+  def jAndThen[A, B, C](f: A => B, g: B => C): A => C = {
+    x => g(f(x))
+  }
+
+
+
+
+
 
   // 2
   def toCurry[A, B, C](f: (A, B) => C): A => B => C =
@@ -111,6 +142,11 @@ object HOFsCurrying {
     println(composedApplication(14)) // 29 = 2 * 14 + 1
     println(aSequencedApplication(14)) // 30 = (14 + 1) * 2
 
+    println(jFormatter(Math.PI))
+    println(jToCurry((x, y) => x + y)(10)(5))
+    println(jFromCurry[String](s1 => s2 => s1 + s2)("zig", "zag"))
+    println(jCompose[Int, Int, Int](x => x+1, x => 2*x)(10))
+    println(jAndThen[Int, Int, Int](x => x+1, x => 2*x)(10))
 
   }
 }

@@ -102,6 +102,10 @@ object HandlingFailure {
 
 
   def main(args: Array[String]): Unit = {
+    val serviceCon = Try(HttpService.getConnection(host, port))
+    val connection = serviceCon.flatMap(c => Try(c.get(myDesiredURL)))
+
+
     println(finalResult)
   }
 }
